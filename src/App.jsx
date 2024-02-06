@@ -2,11 +2,36 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { FaChevronLeft } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa";
 
 const App = () => {
   const renderDivRef = useRef(null);
   const clock = new THREE.Clock();
   const [color, setColor] = useState(false)
+  const [count, setCount] = useState(0)
+
+  function countValue(value) {
+    if (value === "increment") {
+      setCount((prev) => {
+        const newCount = prev + 1;
+        if (newCount === 3) {
+          return 0;
+        }
+        return newCount;
+      });
+    } else {
+      setCount((prev) => {
+        const newCount = prev - 1;
+        if (newCount === -1) {
+          return 3;
+        }
+        return newCount;
+      });
+    }
+  }
+  
+
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -28,53 +53,31 @@ const App = () => {
     const controls = new OrbitControls(camera, renderer.domElement);
     let loadedobj;
 
-    // Create a TextureLoader instance
-    const textureLoader = new THREE.TextureLoader();
+    // const textureLoader = new THREE.TextureLoader();
 
-    // Create a GLTFLoader instance
     const Loader = new GLTFLoader();
-    const modelPath = color ? "../src/assets/LOT(144)2.glb" : "../src/assets/LOT(144).glb";
+
+    let modelPath;
+
+    switch (count) {
+      case 0:
+        modelPath = "../src/assets/LOT(144).glb";
+        break;
+      case 1:
+        modelPath = "../src/assets/Recline_Sofa.glb";
+        break;
+      case 2:
+        modelPath = "../src/assets/White_Sofa_Smooth_Fabric.glb";
+        break;
+        // default :
+        // modelPath = "../src/assets/LOT(144).glb";
+    }
+
+
+
     Loader.load(modelPath, (gltf) => {
       loadedobj = gltf.scene;
-      loadedobj.scale.set(0.8, 0.8, 0.8);
-
-      // Assuming the material you want to texture is at index 0
-      // const materialForSpecificPart = loadedobj.children[0].material;
-      // const materialForSpecificPart1 = loadedobj.children[1].material;
-      // const materialForSpecificPart2 = loadedobj.children[2].material;
-      // const materialForSpecificPart3 = loadedobj.children[3].material;
-      // const materialForSpecificPart4 = loadedobj.children[4].material;
-      // const materialForSpecificPart5 = loadedobj.children[5].material;
-      // const materialForSpecificPart6 = loadedobj.children[6].material;
-
-      // Load the texture with UV mapping
-      // if (color) {
-      //   const materalloader = new THREE.MaterialLoader()
-      //   const material = materalloader.load(
-
-      //   )
-      //   const texture = textureLoader.load(
-      //     "../src/assets/green.png"
-        //   // (loadedTexture) => {
-        //   //   // loadedTexture.wrapS = THREE.RepeatWrapping;
-        //   //   // loadedTexture.wrapT = THREE.RepeatWrapping;
-        //   //   // loadedTexture.repeat.set(1, 1); // Adjust repeat values based on your UV mapping
-
-        //   //   // Apply the texture to the material
-        //   //   materialForSpecificPart.map = loadedTexture;
-        //   //   materialForSpecificPart.needsUpdate = true;
-
-        //   // }
-        // )
-        // materialForSpecificPart.map = texture;
-        // materialForSpecificPart1.map = texture;
-        // materialForSpecificPart2.map = texture;
-        // // materialForSpecificPart3.map = texture;
-        // materialForSpecificPart4.map = texture;
-        // materialForSpecificPart5.map = texture;
-        // materialForSpecificPart6.map = texture;
-        // // materialForSpecificPart.needsUpdate = true;
-      // }
+      loadedobj.scale.set(3, 3, 3);
 
       scene.add(loadedobj);
     });
@@ -85,42 +88,37 @@ const App = () => {
 
     function animate() {
       requestAnimationFrame(animate);
-      const delta = clock.getDelta();
-
-      if (loadedobj) {
-        // Perform any animations or transformations here
-      }
+      // const delta = clock.getDelta();
 
       controls.update();
       renderer.render(scene, camera);
     }
 
-    animate(); // all the animate function
+    animate();
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
     scene.add(directionalLight);
 
-    // Cleanup on component unmount
     return () => {
       renderDivRef.current.removeChild(renderer.domElement);
-      controls.dispose(); // Dispose the controls
+      controls.dispose();
     };
-  }, [color]);
+  }, [color, count]);
 
-  function texture() {
-    setColor(!color)
-    console.log(color);
-  }
 
   return (
     <>
-      <div className="d-flex">
+      <div className="w-50 vh-100 position-relative start-50 translate-middle-x top-50">
+        <button onClick={() => { countValue("increment") }} className="position-absolute btn btn-success end-0 top-50">
+          <FaChevronRight />
+        </button>
+        <button onClick={() => { countValue("decrement") }} className="position-absolute btn btn-success top-50">
+          <FaChevronLeft />
+        </button>
         <div
-          className="m-auto"
+          className="m-auto ratio-1x1 h-100"
           ref={renderDivRef}
-          style={{ width: '100%', height: '100vh' }}
         />
-        <button onClick={texture} className="btn btn-bg-success z-3 w-25">button</button>
       </div>
     </>
   );
