@@ -15,7 +15,7 @@ const App = () => {
     if (value === "increment") {
       setCount((prev) => {
         const newCount = prev + 1;
-        if (newCount === 3) {
+        if (newCount === 2) {
           return 0;
         }
         return newCount;
@@ -24,7 +24,7 @@ const App = () => {
       setCount((prev) => {
         const newCount = prev - 1;
         if (newCount === -1) {
-          return 3;
+          return 2;
         }
         return newCount;
       });
@@ -53,25 +53,22 @@ const App = () => {
     const controls = new OrbitControls(camera, renderer.domElement);
     let loadedobj;
 
-    // const textureLoader = new THREE.TextureLoader();
 
     const Loader = new GLTFLoader();
 
-    let modelPath;
+    let modelPath 
 
     switch (count) {
       case 0:
-        modelPath = "../src/assets/LOT(144).glb";
+        // modelPath = "../src/assets/LOT(308).glb";
+        modelPath = "https://codekart.s3.amazonaws.com/Recline_Sofa+(1).glb";
         break;
       case 1:
-        modelPath = "../src/assets/Recline_Sofa.glb";
+        modelPath = "https://codekart.s3.amazonaws.com/White_Sofa_Smooth_Fabric.glb";
+        // modelPath = "../src/assets/LOT(308).glb";
         break;
-      case 2:
-        modelPath = "../src/assets/White_Sofa_Smooth_Fabric.glb";
-        break;
-        // default :
-        // modelPath = "../src/assets/LOT(144).glb";
     }
+
 
 
 
@@ -82,7 +79,7 @@ const App = () => {
       scene.add(loadedobj);
     });
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1); // color, intensity
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1); 
     scene.add(ambientLight);
     renderDivRef.current.appendChild(renderer.domElement);
 
