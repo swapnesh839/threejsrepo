@@ -31,8 +31,8 @@ const App3 = () => {
 
     const loader = new GLTFLoader();
 
-    // const modelPath = 'https://codekart.s3.amazonaws.com/Lamp.glb';
-    const modelPath = '../src/assets/car.glb';
+    const modelPath = 'https://drive.google.com/file/d/1LgVcObhTI4lvK0SwgOBzAFPhAYx1IX8P/view?usp=sharing';
+    // const modelPath = '../src/assets/car.glb';
     // const modelPath = '../src/assets/penTabblend.glb';
     // const modelPath = '../src/assets/LOT(308).glb';
 
