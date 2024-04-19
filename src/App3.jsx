@@ -31,8 +31,8 @@ const App3 = () => {
 
     const loader = new GLTFLoader();
 
-    const modelPath = 'https://drive.google.com/file/d/1LgVcObhTI4lvK0SwgOBzAFPhAYx1IX8P/view?usp=sharing';
-    // const modelPath = '../src/assets/car.glb';
+    // const modelPath = 'https://drive.google.com/file/d/1LgVcObhTI4lvK0SwgOBzAFPhAYx1IX8P/view?usp=sharing';
+    const modelPath = '../src/assets/car.glb';
     // const modelPath = '../src/assets/penTabblend.glb';
     // const modelPath = '../src/assets/LOT(308).glb';
 
@@ -41,7 +41,8 @@ const App3 = () => {
       loadedObj.scale.set(1.7, 1.7, 1.7);
 
       const objectToColor = loadedObj.getObjectByName('Section')
-      console.log(objectToColor,loadedObj);
+      
+      // console.log(objectToColor,loadedObj);
       if (objectToColor) {
         objectToColor.traverse((child) => {
           if (child.isMesh) {
